@@ -1,12 +1,15 @@
 ﻿using APBD_Task_6.Models;
 using Microsoft.AspNetCore.Mvc;
 using Zadanie5.Services;
+using System;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace Zadanie5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WarehousesController : ControllerBase
+    public class WarehousesController : IWarehouseService
     {
         private readonly IWarehouseService _warehouseService;
 
@@ -16,10 +19,10 @@ namespace Zadanie5.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddProduct(ProductWarehouse product)
+        public async Task<IActionResult> ActionResult AddProduct(ProductWarehouse product)
         {
-            _warehouseService.AddProduct(product);
-            return Ok();
+            int idProductWarehouse = await _warehouseService.AddProduct(product);
+            return Ok(idProductWarehouse);
         }
     }
 }
